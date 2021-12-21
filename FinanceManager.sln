@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceManager", "FinanceManager\FinanceManager.csproj", "{7A236D4C-595F-4A3B-B582-2D3D0549731D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation Layer", "Presentation Layer", "{8E158527-0721-456E-9D23-1E5862066708}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A236D4C-595F-4A3B-B582-2D3D0549731D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A236D4C-595F-4A3B-B582-2D3D0549731D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A236D4C-595F-4A3B-B582-2D3D0549731D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A236D4C-595F-4A3B-B582-2D3D0549731D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7A236D4C-595F-4A3B-B582-2D3D0549731D} = {8E158527-0721-456E-9D23-1E5862066708}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7DF54C06-DD0B-4A10-8E12-0ABD2987FA2C}
+	EndGlobalSection
+EndGlobal

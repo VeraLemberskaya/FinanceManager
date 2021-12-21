@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="FinanceManager.View.AccountsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DataContext="d:DesignInstance Type=ViewModel:AccountsViewModel"
+             d:DesignHeight="492" d:DesignWidth="685">
+    <materialDesign:DialogHost Name="Dia" Identifier="Dialog" BorderBrush="{StaticResource MaterialDesignDivider}">
+        <materialDesign:DialogHost.DialogContent>
+            <Border  Width="150" Height="110" Padding="10">
+            <StackPanel>
+                <TextBlock TextWrapping="Wrap" 
+                           Text="All transactions of this account will be deleted."
+                           Foreground="{DynamicResource MaterialDesignBody}"/>
+                <DockPanel Dock="Bottom" Margin="0 20 0 0">
+                        <Button Style="{StaticResource MaterialDesignFlatLightButton}"
+                            Content="OK"
+                            Width="50"
+                            Height="40"
+                            DockPanel.Dock="Left"
+                            Command="{Binding DeleteAccount}"
+                            CommandParameter="{Binding SelectedAccount}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatLightButton}"
+                            Content="Cancel"
+                            Width="100"
+                            Height="40"
+                            DockPanel.Dock="Right"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                </DockPanel>
+            </StackPanel>
+            </Border>
+        </materialDesign:DialogHost.DialogContent>
+
+            <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+            <StackPanel MouseDown="StackPanel_MouseDown">
+                <TextBlock Margin="16 16 16 10" 
+                           FontWeight="DemiBold"
+                           HorizontalAlignment="Left"
+                           FontSize="24"
+                            Foreground="{DynamicResource MaterialDesignBody}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="TOTAL: {0:0.00} {1}">
+                            <Binding Path="TotalBalance"/>
+                            <Binding Path="DefaultCurrency"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            <ListBox x:Name="AccountsList" Height="330" Grid.Column="0" ItemsSource="{Binding Accounts}"
+                 SelectedItem="{Binding SelectedAccount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 Background="Transparent"
+                 HorizontalContentAlignment="Stretch"
+                 BorderThickness="0"
+                 SelectionMode="Single"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.CanContentScroll="True"
+                 SelectionChanged="ListBox_SelectionChanged">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding EditAccount}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                            <Border x:Name="brd" Background="{DynamicResource PrimaryHueMidBrush}" CornerRadius="15" Height="50">
+                                <DockPanel>
+                                    <Border Width="40" Height ="40" Background="HotPink"  CornerRadius="90">
+                                        <materialDesign:PackIcon Width="32" Height="32" Kind="{Binding Image}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="AliceBlue"/>
+                                    </Border>
+                                    <TextBlock FontSize="14" FontWeight="DemiBold" Margin="5 0 0 0" VerticalAlignment="Center" Text="{Binding Name}" Foreground="AliceBlue"/>
+                                    <TextBlock FontSize="14" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" Foreground="AliceBlue">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:0.00} {1}">
+                                                <Binding Path="Balance"/>
+                                                <Binding Path="Currency"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button x:Name="AddButton" Margin="0 20 0 0" Foreground="AliceBlue"
+             Command="{Binding AddAccount}"
+             Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}" Cursor="Hand">
+                <materialDesign:PackIcon
+                Kind="Plus"
+                Height="28"
+                Width="28"/>
+            </Button>
+
+                <Button x:Name="DeleteButton" Margin="5 32 5 0"
+                 Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
+                 Height="40"
+                 materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                 materialDesign:ButtonAssist.CornerRadius="10"
+                 Visibility="Collapsed"
+                 Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                 Cursor="Hand">
+                    <Button.Content>
+                    <Grid Width="200">
+                        <materialDesign:PackIcon Height="24" Width="24" Kind="DeleteEmpty" HorizontalAlignment="Left" Foreground="AliceBlue"/>
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Text="Delete acoount" Foreground="AliceBlue"/>
+                    </Grid>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <ContentControl Content="{Binding CurrentVM}">
+            </ContentControl>
+        </Grid>
+    </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

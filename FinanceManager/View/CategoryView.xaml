@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="FinanceManager.View.CategoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:FinanceManager.Converters"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="455" d:DesignWidth="342"
+             d:DataContext="d:DesignInstance Type=ViewModel:CategoryViewModel">
+    <UserControl.Resources>
+        <converters:OperationTypeToBoolConverter x:Key="OperationConverter"/>
+        <converters:BoolToColorConverter x:Key="ColorConveter"/>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Margin="15">
+            <StackPanel Orientation="Horizontal">
+                <Border Width="50" Height="50" CornerRadius="90" Background="HotPink">
+                    <materialDesign:PackIcon Name="CategoryImageIcon" Width="32" Height="32" Kind="{Binding Path=Image, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="AliceBlue"/>
+                </Border>
+                <TextBox Name="CategoryNameTextBox" Margin="10 0 0 0"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    Style="{StaticResource  MaterialDesignFloatingHintTextBox}"
+                    materialDesign:HintAssist.Hint="Category name"
+                    materialDesign:HintAssist.FloatingScale="0.50"
+                    FontSize="20"
+                    MaxLength="20"
+                    materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom" Cursor="IBeam">
+                    <TextBox.Text>
+                        <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" ValidatesOnDataErrors="True">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+            </StackPanel>
+            <DockPanel Margin="10 20 10 10">
+                <RadioButton
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    IsChecked="{Binding Path=Type, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource OperationConverter}}"
+                    Content="Expenses"
+                    GroupName="OperationType"
+                    FontSize="16"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource MaterialDesignDarkRadioButton}" />
+                <RadioButton
+                    GroupName="OperationType"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    Content="Income"
+                    IsChecked="True"
+                    FontSize="16"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignDarkRadioButton}" />
+            </DockPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Margin="10 0 0 0"
+                     MaxLength="15"
+                     materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                     Name="CategorySumTextBox"
+                     Foreground="{Binding SuitsDefaultSum, Converter={StaticResource ColorConveter}}"
+                     materialDesign:HintAssist.Hint="Sum"
+                     materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
+                     materialDesign:HintAssist.FloatingScale="0.50"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     FontSize="24" Cursor="IBeam">
+                    <TextBox.Text>
+                        <Binding Path="DefaultSum" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" ValidatesOnDataErrors="True" StringFormat="{}{0:0.00}">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBlock Text="{Binding Path=DefaultCurrency}"
+                           Foreground="{DynamicResource MaterialDesignBody}"
+                           FontSize="24"
+                           Margin="10 12 0 0"
+                           VerticalAlignment="Center"/>
+            </StackPanel>
+            <TextBlock  Foreground="{DynamicResource MaterialDesignBody}"
+                        Text="Icons" FontSize="16"
+                        Margin="10"/>
+            <ListBox Height="50"
+                     Name="categoryIconsList"
+                     ItemsSource="{Binding Path=Icons}"
+                     Padding="10"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     SelectionMode="Single"
+                     SelectedItem="{Binding Path=Image,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <materialDesign:PackIcon x:Name="Icon" Width="32" Height="32" Kind="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource PrimaryHueLightBrush}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <Button Margin="0 110 0 0" Style="{StaticResource MaterialDesignFlatSecondaryLightBgButton}"
+                Height="40"
+                Width="200"
+                IsEnabled="{Binding Path=IsValid}"
+                Command="{Binding SaveCategory}"
+                Foreground="AliceBlue"
+                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                HorizontalAlignment="Center"
+                materialDesign:ButtonAssist.CornerRadius="10" Cursor="Hand" Content="Save"/>
+
+        </StackPanel> 
+    </Grid>
+</UserControl>

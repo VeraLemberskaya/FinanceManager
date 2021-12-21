@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="FinanceManager.View.CurrencyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModel="clr-namespace:FinanceManager.ViewModel"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             
+             d:DesignHeight="492" d:DesignWidth="635">
+    <UserControl.DataContext>
+        <viewModel:CurrencyViewModel/>
+    </UserControl.DataContext>
+    <materialDesign:DialogHost Name="Dia" Identifier="Dialog" BorderBrush="{StaticResource MaterialDesignDivider}">
+            <materialDesign:DialogHost.DialogContent>
+                <Border Width="200" Height="180" HorizontalAlignment="Center">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Margin="10" TextWrapping="Wrap">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="Default currency will be changed from {0} to {1}.">
+                                    <Binding Path="DefaultCurrency"/>
+                                    <Binding Path="SelectedCurrency"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Button Command="{Binding SaveCurrency}" Style="{DynamicResource MaterialDesignFlatLightButton}" Margin="20" Content="OK" HorizontalAlignment="Right">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatLightButton}" Margin="10" Content="Cancel" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            </materialDesign:DialogHost.DialogContent>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="7*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Border CornerRadius="15"
+                    Background="{DynamicResource MaterialDesignCardBackground}"
+                    Padding="5"
+                    Margin="10">
+                    <TextBox
+              x:Name="SearchTextBox"
+              Foreground="{DynamicResource MaterialDesignBody}"
+                    FontSize="15"
+              Text="{Binding SearchFilter,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}"
+              MaxLength="20"
+              materialDesign:HintAssist.Hint="Search"
+              materialDesign:TextFieldAssist.CharacterCounterVisibility="Hidden"
+              materialDesign:TextFieldAssist.HasTrailingIcon="True"
+              materialDesign:TextFieldAssist.TrailingIconSize="30"
+              materialDesign:TextFieldAssist.TrailingIcon="Search" Cursor="IBeam">
+                    </TextBox>
+                    
+                </Border>
+                <ListBox Name="ListCurrency" ItemsSource="{Binding FilteredCurrency.View}"
+                     SelectedItem="{Binding SelectedCurrency,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                     Height="300"
+                     Margin="10"
+                     SelectionMode="Single"
+                     HorizontalAlignment="Stretch"
+                     SelectionChanged="ListCurrency_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{DynamicResource PrimaryHueMidBrush}"
+                                    CornerRadius="15"
+                                    Height="40"
+                                    BorderThickness="0"
+                                    Width="300"
+                                    Padding="10"
+                                    Margin="2" Cursor="Hand">
+                                <Grid>
+                                    <TextBlock Text="{Binding Name}"
+                                           FontSize="16"
+                                           FontWeight="DemiBold"
+                                           Foreground="AliceBlue"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Designation}"
+                                           FontSize="16"
+                                           FontWeight="DemiBold"
+                                           Foreground="AliceBlue"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <!--<TextBlock Text="{Binding DefaultCurrency}"/>-->
+            </StackPanel>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>
