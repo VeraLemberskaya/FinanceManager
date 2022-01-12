@@ -26,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="FinanceManager.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Setting.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Setting.Designer.cs</LastGenOutput>
