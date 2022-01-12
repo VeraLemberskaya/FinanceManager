@@ -79,6 +79,7 @@ namespace FinanceManager.Services
         private Service()
         {
             _db = new ApplicationContext();
+            _db.Database.EnsureCreated();
             _defaultCurrency = Currency[Setting.Default.index];            
         }
 
